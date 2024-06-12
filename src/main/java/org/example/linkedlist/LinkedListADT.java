@@ -25,6 +25,7 @@ interface ADT {
 
     Node convertArrayToLinkedList(int arr[]);
 
+    Node deleteK(int k);
 }
 
 class Node {
@@ -193,6 +194,11 @@ public class LinkedListADT implements ADT {
             mover = temp;
         }
         return head;
+    }
+
+    @Override
+    public Node deleteK(int k) {
+        return null;
     }
 
 }
