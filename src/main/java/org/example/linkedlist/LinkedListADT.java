@@ -26,6 +26,16 @@ interface ADT {
     Node convertArrayToLinkedList(int arr[]);
 
     Node deleteK(int k);
+
+    int size();
+
+    void range(int start, int end);
+
+    Node insertHead(int data);
+
+    Node insertAt(int index, int data);
+
+    void update(int oldData, int newData);
 }
 
 class Node {
@@ -198,7 +208,100 @@ public class LinkedListADT implements ADT {
 
     @Override
     public Node deleteK(int k) {
+        if (head == null) {
+            return null;
+        }
+        if (k == 1) {
+            head = head.next;
+            return head;
+        }
+        Node temp = head;
+        Node prev = null;
+        int counter = 0;
+        while (temp.next != null) {
+            counter++;
+            if (counter == k) {
+                prev.next = prev.next.next;
+                break;
+
+            }
+            prev = temp;
+            temp = temp.next;
+        }
+
+        return head;
+    }
+
+    @Override
+    public int size() {
+        int counter = 1;
+        Node temp = head;
+        while (temp.next != null) {
+            counter++;
+            temp = temp.next;
+        }
+        return counter;
+
+    }
+
+    @Override
+    public void range(int start, int end) {
+        Node st = head;
+
+        Node en = null;
+        int counter = 0;
+        while (st != null) {
+            if (counter == start) {
+                counter++;
+                st = st.next;
+            }
+        }
+        while (st != null) {
+            if (counter == end) {
+                counter++;
+
+            }
+        }
+
+
+    }
+
+    @Override
+    public Node insertHead(int data) {
+        Node temp = new Node(data);
         return null;
+    }
+
+    @Override
+    public Node insertAt(int index, int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+        }
+        Node temp = head;
+        Node prev = null;
+        int counter = 0;
+        while (temp.next != null) {
+            counter++;
+            if (counter == index) {
+                newNode.next = prev.next.next;
+                prev.next.next = newNode;
+            }
+            prev = temp;
+            temp = temp.next;
+        }
+        return null;
+    }
+
+    @Override
+    public void update(int oldData, int newData) {
+        Node temp = head;
+        while (temp.next != null) {
+            if (temp.data == oldData) {
+                temp.data = newData;
+            }
+            temp = temp.next;
+        }
     }
 
 }
@@ -207,11 +310,15 @@ class Main {
     public static void main(String[] args) throws NullPointerException {
         LinkedListADT list = new LinkedListADT();
 
-        list.addFirst(1);
-        list.addFirst(2);
-        list.addFirst(3);
-        list.addFirst(4);
-        list.removeLast();
+        list.addLast(1);
+        list.addLast(2);
+        list.addLast(3);
+        list.addLast(4);
+        list.addLast(5);
+//        list.insertAt(3, 33);
+//        list.deleteK(3);
+        list.update(1, 333);
         list.display();
+        System.out.println("Size: " + list.size());
     }
 }
