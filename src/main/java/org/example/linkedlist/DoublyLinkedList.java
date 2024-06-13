@@ -21,6 +21,45 @@ public class DoublyLinkedList {
         }
     }
 
+    public void prepend(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+        } else {
+            newNode.next = head;
+            head.prev = newNode;
+            head = newNode;
+        }
+    }
+
+    public int insertAt(int index, int data) {
+        if (index == 1) {
+            prepend(data);
+            return data;
+        }
+        Node temp = head;
+        int counter = 1;
+        while (temp.next != null) {
+            counter++;
+            if (counter == index) {
+                Node newNode = new Node(data);
+                newNode.next = temp.next;
+                temp.next.prev = newNode;
+                temp.next = newNode;
+                newNode.prev = temp;
+                break;
+
+            }
+            temp = temp.next;
+        }
+
+        if (temp.next == null) {
+            append(data);
+            return data;
+        }
+        return counter;
+    }
+
     public Node convertToArray(int[] arr) {
         head = new Node(arr[0]);
         Node prev = head;
@@ -32,9 +71,40 @@ public class DoublyLinkedList {
         return head;
     }
 
+    int removeAt(int index) {
+        if (index == 0) {
+            head.next.prev = null;
+            head = head.next;
+            return index;
+
+        }
+        if (index == 1) {
+            head.next.prev = null;
+            head = head.next;
+            return index;
+        }
+
+        Node current = head;
+        Node prev = null;
+        int counter = 0;
+        while (current.next != null) {
+            counter++;
+            if (counter == index) {
+                current.prev = null;
+                prev.next = current.next;
+                current.next = null;
+                break;
+            }
+            prev = current;
+            current = current.next;
+        }
+
+        return counter;
+    }
+
     public void print() {
         Node temp = head;
-        while (temp.next != null) {
+        while (temp != null) {
             System.out.print(temp.data + " ");
             temp = temp.next;
 
@@ -54,6 +124,8 @@ class Test {
         list.append(3);
         list.append(4);
         list.append(5);
+        System.out.println( list.removeAt(5));
+//        System.out.println(list.insertAt(1, 4444));
         list.print();
     }
 }
